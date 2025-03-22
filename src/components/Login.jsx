@@ -31,47 +31,6 @@ const Login = () => {
       .required("Password is required"),
   });
 
-  const setSwipeStatus = async (token) => {
-    try {
-      const options = {
-        headers: { Authorization: `Bearer ${token}`, "Content-Type": "" },
-      };
-      const swipeResponse = await axios.post(
-        `${axiosBaseURL}/user/attendance/swipestatus`,
-        {},
-        options
-      );
-
-      const swipedInStatus = swipeResponse.data.swipedIn;
-      const totalTime = swipeResponse.data.totalTime || 0;
-      localStorage.setItem("totalTime", totalTime);
-      localStorage.setItem("swipedIn", JSON.stringify(swipedInStatus));
-      dispatch(setSwipedIn(JSON.stringify(swipedInStatus)));
-      console.log(localStorage.getItem("swipedIn"));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const fetchEmployee = async () => {
-    try {
-      const options = {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          "Content-Type": "application/json",
-        },
-      };
-      const response = await axios.get(
-        `${axiosBaseURL}/user/getemployee`,
-        options
-      );
-      dispatch(setEmployee(response.data.employee));
-      console.log(response.data.employee);
-    } catch (error) {
-      console.error("Error fetching employee:", error);
-    }
-  };
-
   const handleGuestLogin = async () => {
     const guestCredentials = {
       email: "mukeshkj2912@gmail.com",
@@ -101,6 +60,8 @@ const Login = () => {
         dispatch(setToken(res.data.token));
         localStorage.setItem("authToken", res.data.token);
       
+        if(localStorage.getItem("adminEmail") === options.email && localStorage.getItem("adminPassword") === options.password && localStorage.getItem("isAdmin")){
+            
         toast.success("Login successful", {
           position: "top-right",
           autoClose: 5000,
@@ -110,14 +71,14 @@ const Login = () => {
           draggable: true,
           progress: undefined,
         });
-
-        if(localStorage.getItem("adminEmail") === options.email && localStorage.getItem("adminPassword") === options.password && localStorage.getItem("isAdmin")){
-             navigate("/admin");
+          setTimeout(()=>{
+            navigate("/admin");
+          },500)
         }
         else{
-             navigate("/dashboard");
-             await setSwipeStatus(res.data.token); 
-             await fetchEmployee();
+          setTimeout(()=>{
+            navigate("/dashboard");
+          },500)
         }
         setLoading(false);
       } else {

@@ -102,7 +102,7 @@ const Employees = () => {
                     Name: <strong>{employee.name}</strong>
                   </p>
                   <p>
-                    Designation: <strong>{employee.designation}</strong>
+                    Designation: <strong>{employee.work}</strong>
                   </p>
                   <p>
                     Email:{" "}

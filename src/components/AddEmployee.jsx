@@ -26,6 +26,7 @@ const AddEmployee = () => {
       .matches(/^\d{10,}$/, "Phone must be at least 10 digits")
       .required("Phone number is required"),
     address: Yup.string().required("Address is required"),
+    Project: Yup.string().required("Project is required"),
   });
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
@@ -104,6 +105,13 @@ const AddEmployee = () => {
               <Field type="text" name="address" className="form-control" />
               <ErrorMessage name="address" component="div" className="text-danger" />
             </div>
+
+            <div className="form-group my-3">
+              <label htmlFor="address">Project</label>
+              <Field type="text" name="Project" className="form-control" />
+              <ErrorMessage name="Project" component="div" className="text-danger" />
+            </div>
+
 
             <button type="submit" className="btn btn-custom" disabled={isSubmitting}>
               {isSubmitting ? "Saving..." : "Add Employee"}
